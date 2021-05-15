@@ -33,9 +33,14 @@ Vector2i Window::preferredSize(NVGcontext *ctx) const {
     float bounds[4];
     nvgTextBounds(ctx, 0, 0, mTitle.c_str(), nullptr, bounds);
 
-    return result.cwiseMax(Vector2i(
-        bounds[2]-bounds[0] + 20, bounds[3]-bounds[1]
-    ));
+    // release bug here
+	//return result.cwiseMax(Vector2i(
+	//    bounds[2]-bounds[0] + 20, bounds[3]-bounds[1]
+	//));
+	int maxa = result(0) > bounds[2] - bounds[0] + 20 ? result(0) : bounds[2] - bounds[0] + 20;
+	int maxb = result(1) > bounds[3] - bounds[1] ? result(1) : bounds[3] - bounds[1];
+
+	return Vector2i(maxa, maxb);
 }
 
 Widget *Window::buttonPanel() {
